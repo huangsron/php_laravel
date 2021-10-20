@@ -7,6 +7,7 @@ docker run --rm -v $(pwd)/src/app:/app composer install
 sudo cp src/app/.env.example src/app/.env
 docker run --rm -v $(pwd)/src/app:/app composer php artisan key:generate
 
+sudo chown -R vagrant:vagrant src/app
 sudo chown -R 33:33 src/app
 
 # remove all container
@@ -14,6 +15,8 @@ sudo chown -R 33:33 src/app
 
 docker-compose up -d --build --remove-orphans
 ```
+
+sudo php src/app/artisan make:controller ProfileController
 
 ## check
 docker-compose logs

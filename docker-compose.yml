@@ -5,9 +5,10 @@ services:
     # build: ./tools/php
     build: ./src
     restart: unless-stopped
-    # volumes:
+    volumes:
       # - "./src/app:/var/www/html"
-      # - "./log/app:/var/www/html/storage/logs"
+      - "./log/app:/var/www/html/storage/logs"
+      # - "./src/php.ini:/usr/local/etc/php/php.ini"
     depends_on:
       - mysql 
     environment:

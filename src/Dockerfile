@@ -1,5 +1,8 @@
 FROM php:7.4-fpm
- 
+
+# install mysql driver
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
 # RUN apt-get update && apt-get install -y \
 #         # For php gd ext
 #         libfreetype6-dev \
@@ -53,3 +56,4 @@ ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
 
 COPY --chown=www-data app /var/www/html
+RUN chmod -R 777 /var/www/html/storage

@@ -1,0 +1,44 @@
+version: "3.3"
+ 
+services:
+  app:
+    build: ./tools/php
+    restart: unless-stopped
+    volumes:
+      - "./src/app:/var/www/html"
+      - "./log/app:/var/www/html/storage/logs"
+    depends_on:
+      - mysql 
+    environment:
+      DB_ROOT_PW: "dbadmin1234"
+    networks:
+    - nginx
+    - db
+
+  mysql:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=dbadmin1234
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./log/mysql:/var/log/mysql
+ 
+  nginx:
+    image: nginx:1.21.3-alpine
+    ports:
+      - 80:80
+    volumes:
+      - "./src/app:/var/www/html"
+      - "./log/nginx:/var/log/nginx"
+      - "./tools/nginx/conf.d:/etc/nginx/conf.d"
+    depends_on:
+      - app
+    networks:
+    - nginx
+
+networks:
+  nginx:
+  db:

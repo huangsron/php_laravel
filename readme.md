@@ -9,23 +9,42 @@ docker run --rm -v $(pwd)/src/app:/app composer php artisan key:generate
 
 sudo chown -R vagrant:vagrant src/app
 sudo chown -R 33:33 src/app
+sudo chmod -R 777 /src/app/storage
 
 # remove all container
 # docker rm -f $(docker ps -aq)
 
-docker-compose up -d --build --remove-orphans
+# rebuild and start
+docker-compose down; docker-compose build --no-cach --parallel; docker-compose up -d --build --remove-orphans
 ```
 
 sudo php src/app/artisan make:controller ProfileController
+sudo php src/app/artisan make:migration create_flights_table
+
+docker-compose exec mysql bash
+mysql -u root -p
+CREATE DATABASE `laravel`;
+sudo php src/app/artisan migrate
+sudo php src/app/artisan migrate --force
+sudo php src/app/artisan migrate:status
+
+sudo php src/app/artisan db
+sudo php src/app/artisan db mysql
+
+
+sudo mkdir -p ./log/app
+sudo chown -R 33:33 ./log/app
 
 ## check
 docker-compose logs
 
 curl localhost:8000
-
+curl localhost/user
 
 composer create-project laravel/laravel ./src/app
 sudo chown -R 33:33 src/app
+
+php ./src/app/artisan serve --host=0.0.0.0 --port=8000
 
 # install php on host
 sudo apt install php7.4

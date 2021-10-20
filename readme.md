@@ -1,8 +1,9 @@
-
-
 ## run first
 git clone git@github.com:huangsron/php_laravel.git
-docker run --rm -v $(pwd)/src/app/:/app composer install
+docker run --rm -v $(pwd)/src/app:/app composer install
+docker run --rm -v $(pwd)/src/app:/app sudo php artisan key:generate
+
+sudo cp src/app/.env.example src/app/.env   
 sudo chown -R 33:33 src/app
 docker-compose up -d --build --remove-orphans
 

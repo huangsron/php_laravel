@@ -1,7 +1,5 @@
 ## run first
 ```shell
-git clone git@github.com:huangsron/php_laravel.git
-
 cd php_laravel
 docker run --rm -v $(pwd)/src/app:/app composer install
 sudo cp src/app/.env.example src/app/.env
